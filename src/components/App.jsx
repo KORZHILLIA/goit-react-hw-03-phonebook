@@ -12,9 +12,13 @@ export class App extends Component {
   };
 
   componentDidMount() {
-    const localStorageContacts = load('contacts');
-    if (localStorageContacts) {
-      this.setState({ contacts: localStorageContacts });
+    try {
+      const localStorageContacts = load('contacts');
+      if (localStorageContacts) {
+        this.setState({ contacts: localStorageContacts });
+      }
+    } catch (error) {
+      alert(error.message);
     }
   }
 
@@ -25,7 +29,11 @@ export class App extends Component {
     if (prevFilter !== currentFilter) {
       return;
     }
-    save('contacts', contacts);
+    try {
+      save('contacts', contacts);
+    } catch (error) {
+      alert(error.message);
+    }
   }
 
   addContact = (name, number) => {
